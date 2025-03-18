@@ -10,7 +10,7 @@ public class LinearProbing extends Hashtable {
     public int h(Object key, int probe) {
         
         int k = key.hashCode();
-        return (k+probe) % capacity;
+        return positiveMod(k + probe, capacity);
     }
     
 }
