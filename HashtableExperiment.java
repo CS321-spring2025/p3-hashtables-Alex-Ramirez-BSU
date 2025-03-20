@@ -18,8 +18,7 @@ public class HashtableExperiment {
         System.out.println("\t[<debugLevel>]:\t 0 ==> print summary of experiment");
 		System.out.println("\t\t\t 1 ==> save the two hash tables to a file at the end");
 		System.out.println("\t\t\t 2 ==> print debugging output for each insert");
-		//System.out.println("\t\t\t\t Square brackets denote an optional argument.");
-    }
+	}
 
 	public static void printDebug(int n, String nameDataSource, int totalInserted, int totalDuplicates, double totalProbesLinear, double totalProbesDouble, int debugLevel, Hashtable linearHashtable, Hashtable doubleHashtable) {
 		
@@ -45,6 +44,31 @@ public class HashtableExperiment {
 			doubleHashtable.dumpToFile("double-dump.txt");
 		}
 	}
+
+	// public static void printDebug(int n, String nameDataSource, int totalInserted, int totalDuplicates, double totalProbesLinear, double totalProbesDouble, int debugLevel, Hashtable linearHashtable, Hashtable doubleHashtable) {
+
+	// 	// Linear Probing statistics
+	// 	double avgProbesLinear = totalProbesLinear / totalInserted;
+	// 	System.out.println("\n\tUsing Linear Probing");
+	// 	System.out.println("HashtableExperiment: size of hash table is " + n);  // Assuming half the table is used based on load factor
+	// 	System.out.println("\tInserted " + totalInserted + " elements, of which " + totalDuplicates + " were duplicates");
+	// 	System.out.printf("\tAvg. no. of probes = %.2f\n", avgProbesLinear);
+	// 	if (debugLevel == 1) {
+	// 		System.out.println("HashtableExperiment: Saved dump of hash table");
+	// 		linearHashtable.dumpToFile("linear-dump.txt");
+	// 	}
+	
+	// 	// Double Hashing statistics
+	// 	double avgProbesDouble = totalProbesDouble / totalInserted;
+	// 	System.out.println("\n\tUsing Double Hashing");
+	// 	System.out.println("HashtableExperiment: size of hash table is " + n);  // Assuming half the table is used based on load factor
+	// 	System.out.println("\tInserted " + totalInserted + " elements, of which " + totalDuplicates + " were duplicates");
+	// 	System.out.printf("\tAvg. no. of probes = %.2f\n", avgProbesDouble);
+	// 	if (debugLevel == 1) {
+	// 		System.out.println("HashtableExperiment: Saved dump of hash table");
+	// 		doubleHashtable.dumpToFile("double-dump.txt");
+	// 	}
+	// }
 
 
     public static void main(String[] args) {
@@ -86,17 +110,27 @@ public class HashtableExperiment {
 		double totalProbesDouble = 0;
 
 
-		//Printing User Input
+		//User Input
 		switch(dataSource) {
-			case 1: nameDataSource = "Integer";
+			case 1: nameDataSource = "Random";
 					Random random = new Random();
 					for (int i = 0; i < n; i++) {
 						int randomInteger = random.nextInt();
 						HashObject hashObject = new HashObject(randomInteger);
 
 						//Inserting Into Both Tables
-						totalProbesLinear += linearHashtable.insert(hashObject);
-						totalProbesDouble += doubleHashtable.insert(hashObject);
+						// totalProbesLinear += linearHashtable.insert(hashObject);
+						// totalProbesDouble += doubleHashtable.insert(hashObject);
+						if (hashObject.getFrequencyCount() == 1) {
+							// Only count probes for new insertions
+							totalProbesLinear += linearHashtable.insert(hashObject);
+							totalProbesDouble += doubleHashtable.insert(hashObject);
+						} else {
+							// For duplicates, just count probes but don't count as new insertions
+							totalProbesLinear += linearHashtable.insert(hashObject);
+							totalProbesDouble += doubleHashtable.insert(hashObject);
+							totalDuplicates++;
+						}
 
 						if (hashObject.getFrequencyCount() > 1) {
 							totalDuplicates++;

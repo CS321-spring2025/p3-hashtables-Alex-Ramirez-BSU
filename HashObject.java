@@ -53,7 +53,7 @@ public class HashObject {
     //String Representation Of The Object
     @Override
     public String toString() {
-        return "Key: " + key + ", Frequency: " + frequencyCount + ", Probe Count: " + probeCount;
+        return  key + " " + frequencyCount + " " + probeCount;
     }
 
 }

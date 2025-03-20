@@ -1,5 +1,3 @@
-//FIRST CHECKPOINT REQUIRED
-
 public class TwinPrimeGenerator {
 
     //To Verify If Number Is Prime
