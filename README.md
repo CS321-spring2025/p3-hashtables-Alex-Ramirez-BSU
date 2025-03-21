@@ -42,6 +42,55 @@ elements, and the average number of probes taken by its respective hashing metho
 
 ## Results
 
+results-random.txt
+--------------------------------------------------------------------------------
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Random   LoadFactor: 0.5
+
+	Using Linear Probing
+HashtableExperiment: size of hash table is 47896.0
+	Inserted 191582 elements, of which 95791 were duplicates
+	Avg. no. of probes = 0.00
+
+	Using Double Hashing
+HashtableExperiment: size of hash table is 47896.0
+	Inserted 191580 elements, of which 191580 were duplicates
+	Avg. no. of probes = 0.00
+--------------------------------------------------------------------------------
+
+results-date.txt
+--------------------------------------------------------------------------------
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Long   LoadFactor: 0.5
+
+	Using Linear Probing
+HashtableExperiment: size of hash table is 47896.0
+	Inserted 95791 elements, of which 0 were duplicates
+	Avg. no. of probes = 0.00
+
+	Using Double Hashing
+HashtableExperiment: size of hash table is 47896.0
+	Inserted 95791 elements, of which 95791 were duplicates
+	Avg. no. of probes = 0.00
+--------------------------------------------------------------------------------
+
+results-word-list.txt
+--------------------------------------------------------------------------------
+Table Capacity Is: 95791
+HashtableExperiment: Found a twin prime table capacity: 95791
+HashtableExperiment: Input: Word-List   LoadFactor: 0.5
+
+	Using Linear Probing
+HashtableExperiment: size of hash table is 47896.0
+	Inserted 48071 elements, of which 175 were duplicates
+	Avg. no. of probes = 0.00
+
+	Using Double Hashing
+HashtableExperiment: size of hash table is 47896.0
+	Inserted 48071 elements, of which 48071 were duplicates
+	Avg. no. of probes = 0.00
+--------------------------------------------------------------------------------
+
 
 
 ## Sources used
