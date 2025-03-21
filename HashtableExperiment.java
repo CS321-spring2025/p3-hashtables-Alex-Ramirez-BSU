@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 
 public class HashtableExperiment {
 
+	//Declaring Both Hashtables
 	private static Hashtable linearHashtable;
 	private static Hashtable doubleHashtable;
 
@@ -71,25 +72,22 @@ public class HashtableExperiment {
 		}
 
 		//Twin Prime Table Capacity is 95791
-		int m = TwinPrimeGenerator.generateTwinPrime(95500, 96000);			//Table Capacity (m)
-		double n = (int) Math.ceil(loadFactor * m);									//Number Of Elements To Insert (n)
+		int tableCapacity = TwinPrimeGenerator.generateTwinPrime(95500, 96000);				//Table Capacity (m)
+		double numberToInsert = (int) Math.ceil(loadFactor * tableCapacity);						//Number Of Elements To Insert (n)
 
 		//Two Tables
-		linearHashtable = new LinearProbing(m, loadFactor);
-		doubleHashtable = new DoubleHashing(m, loadFactor);
+		linearHashtable = new LinearProbing(tableCapacity, loadFactor);
+		doubleHashtable = new DoubleHashing(tableCapacity, loadFactor);
 
 		//Debug Stats
 		int totalInserted = 0;
 		int totalDuplicates = 0;
-		//double totalProbesLinear = 0;
-		//double totalProbesDouble = 0;
-
 
 		//User Input
 		switch(dataSource) {
 			case 1: nameDataSource = "Random";
 					Random random = new Random();
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < tableCapacity; i++) {
 						int randomInteger = random.nextInt();
 						HashObject hashObject = new HashObject(randomInteger);
 		
@@ -128,7 +126,7 @@ public class HashtableExperiment {
 					break;
 			case 2: nameDataSource = "Long";
 					long current = new Date().getTime();
-					for (int i = 0; i < n; i++) {
+					for (int i = 0; i < tableCapacity; i++) {
 						current += 1000;
 						Date date = new Date(current);
 						HashObject hashObject = new HashObject(date);
@@ -156,13 +154,13 @@ public class HashtableExperiment {
 			case 3: nameDataSource = "Word-List";
 					String fileName = "word-list.txt";
 					int wordsInserted = 0;
-					System.out.println("N is: " + n);
+					System.out.println("Table Capacity Is: " + tableCapacity);
 					//System.out.println("Load Factor is: " + linearHashtable.loadFactor());
 
 					try (Scanner scanner = new Scanner(new File(fileName))) {
 
 
-						while (scanner.hasNextLine() && wordsInserted < m) {
+						while (scanner.hasNextLine() && wordsInserted < tableCapacity) {
 							String word = scanner.nextLine().trim();
 							HashObject hashObject = new HashObject(word);
 		
@@ -194,9 +192,10 @@ public class HashtableExperiment {
 					return;
 		}
 
-		System.out.println("HashtableExperiment: Found a twin prime table capacity: " + m);
+		System.out.println("HashtableExperiment: Found a twin prime table capacity: " + tableCapacity);
 		System.out.println("HashtableExperiment: Input: " + nameDataSource + "   LoadFactor: " + loadFactor);
 
-		printDebug(n ,nameDataSource, debugLevel);
+		printDebug(numberToInsert, nameDataSource, debugLevel);
+
     }
 }

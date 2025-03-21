@@ -1,9 +1,9 @@
 public class HashObject {
-    private Object key;             //Generic key object
-    private int frequencyCount;     //To Track Duplicates
-    private int probeCount;         //To Track Probe Attempts
+    private Object key;          // Generic Key Object
+    private int frequencyCount;  //To Track Duplicates
+    private int probeCount;      //To Track Probe Attempts
 
-    //Constructor to initialize the key, frequency, and probe count
+    //Default Constructor
     public HashObject(Object key) {
         this.key = key;
         this.frequencyCount = 1;    //Frequency Starts At 1, As Created
@@ -35,19 +35,22 @@ public class HashObject {
         this.probeCount++;
     }
 
-    //Compare Keys
+    //Override Equals To Compare Keys
     @Override
     public boolean equals(Object obj) {
+
         if (this == obj) {
-            return true;
+            return true; //If Both Refernces Are The Same, Return True?
         }
-        
+
         if (obj == null || getClass() != obj.getClass()) {
-            return false;
+            return false; //If Obj Is Null Or Of A Different Class, Return False?
         }
 
         HashObject other = (HashObject) obj;
-        return this.key != null && this.key.equals(other.key);
+        
+        //Compare Key Values Using The Equals On The Keys
+        return this.key.equals(other.key);
     }
 
     //String Representation Of The Object
@@ -55,5 +58,4 @@ public class HashObject {
     public String toString() {
         return  key + " " + frequencyCount + " " + probeCount;
     }
-
 }
