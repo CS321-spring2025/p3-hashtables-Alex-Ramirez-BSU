@@ -42,21 +42,21 @@ elements, and the average number of probes taken by its respective hashing metho
 
 ## Results
 
-results-random.txt
---------------------------------------------------------------------------------
-HashtableExperiment: Found a twin prime table capacity: 95791
-HashtableExperiment: Input: Random   LoadFactor: 0.5
-
-	Using Linear Probing
-HashtableExperiment: size of hash table is 47896.0
-	Inserted 191582 elements, of which 95791 were duplicates
-	Avg. no. of probes = 0.00
-
-	Using Double Hashing
-HashtableExperiment: size of hash table is 47896.0
-	Inserted 191580 elements, of which 191580 were duplicates
-	Avg. no. of probes = 0.00
---------------------------------------------------------------------------------
+|results-random.txt|
+|--------------------------------------------------------------------------------	|
+|HashtableExperiment: Found a twin prime table capacity: 95791				|
+|HashtableExperiment: Input: Random   LoadFactor: 0.5					|
+|											|
+|	Using Linear Probing								|
+|HashtableExperiment: size of hash table is 47896.0
+|	Inserted 191582 elements, of which 95791 were duplicates
+|	Avg. no. of probes = 0.00
+|
+|	Using Double Hashing
+|HashtableExperiment: size of hash table is 47896.0
+|	Inserted 191580 elements, of which 191580 were duplicates
+|	Avg. no. of probes = 0.00
+|--------------------------------------------------------------------------------
 
 results-date.txt
 --------------------------------------------------------------------------------
@@ -95,4 +95,4 @@ HashtableExperiment: size of hash table is 47896.0
 
 ## Sources used
 
-No outside sources used.
+3 Day Extension.
