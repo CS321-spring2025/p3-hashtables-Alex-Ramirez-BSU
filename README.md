@@ -18,6 +18,10 @@ A listing of the included files...
 - Hashtable.java
 - HashtableExperiment.java
 - LinearProbing.java
+- TwinPrimeGenerator.java
+- generate-results.sh (Do Not Modify)
+- p3-rubric.txt (Do Not Modify)
+- README.md
 - run-tests.sh (Do Not Modify)
 
 ## Reflection
