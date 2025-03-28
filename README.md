@@ -42,54 +42,40 @@ elements, and the average number of probes taken by its respective hashing metho
 
 ## Results
 
-|results-random.txt|
-|--------------------------------------------------------------------------------	|
-|HashtableExperiment: Found a twin prime table capacity: 95791				|
-|HashtableExperiment: Input: Random   LoadFactor: 0.5					|
-|											|
-|	Using Linear Probing								|
-|HashtableExperiment: size of hash table is 47896.0					|
-|	Inserted 191582 elements, of which 95791 were duplicates			|
-|	Avg. no. of probes = 0.00							|
-|											|
-|	Using Double Hashing								|
-|HashtableExperiment: size of hash table is 47896.0					|
-|	Inserted 191580 elements, of which 191580 were duplicates			|
-|	Avg. no. of probes = 0.00							|
-|--------------------------------------------------------------------------------	|
+Random Numbers
+| Load Factor | Linear Probing Average # Of Probes | Double Hashing Average # Of Probes |
+|-------------|------------------------------------| ----------------------------------	|
+| 0.5 | 1.50 | 1.39 |
+| 0.6 | 1.74 | 1.53 |
+| 0.7 | 2.21 | 1.72 |
+| 0.8 | 2.94 | 2.01 |
+| 0.9 | 5.67 | 2.59 |
+| 0.95 | 10.64 | 3.17 |
+| 0.99 | 47.92 | 4.63 |
 
-|results-date.txt|
-|--------------------------------------------------------------------------------	|
-|HashtableExperiment: Found a twin prime table capacity: 95791				|
-|HashtableExperiment: Input: Long   LoadFactor: 0.5					|
-|											|
-|	Using Linear Probing								|
-|HashtableExperiment: size of hash table is 47896.0					|
-|	Inserted 95791 elements, of which 0 were duplicates				|
-|	Avg. no. of probes = 0.00							|
-|											|
-|	Using Double Hashing								|
-|HashtableExperiment: size of hash table is 47896.0					|
-|	Inserted 95791 elements, of which 95791 were duplicates				|
-|	Avg. no. of probes = 0.00							|
-|--------------------------------------------------------------------------------	|
+Dates
+| Load Factor | Linear Probing Average # Of Probes | Double Hashing Average # Of Probes |
+|-------------|------------------------------------| ----------------------------------	|
+| 0.5 | 1.28 | 1.38 |
+| 0.6 | 1.44 | 1.64 |
+| 0.7 | 1.60 | 2.02 |
+| 0.8 | 1.82 | 2.49 |
+| 0.9 | 2.18 | 3.21 |
+| 0.95 | 2.70 | 3.76 |
+| 0.99 | 5.41 | 5.40 |
 
-|results-word-list.txt|
-|--------------------------------------------------------------------------------	|
-|Table Capacity Is: 95791								|
-|HashtableExperiment: Found a twin prime table capacity: 95791				|
-|HashtableExperiment: Input: Word-List   LoadFactor: 0.5				|
-|											|
-|	Using Linear Probing								|
-|HashtableExperiment: size of hash table is 47896.0					|
-|	Inserted 48071 elements, of which 175 were duplicates				|
-|	Avg. no. of probes = 0.00							|
-|											|
-|	Using Double Hashing								|
-|HashtableExperiment: size of hash table is 47896.0					|
-|	Inserted 48071 elements, of which 48071 were duplicates				|
-|	Avg. no. of probes = 0.00							|
-|--------------------------------------------------------------------------------	|
+Word List
+| Load Factor | Linear Probing Average # Of Probes | Double Hashing Average # Of Probes |
+|-------------|------------------------------------| ----------------------------------	|
+| 0.5 | 1.60 | 1.39 |
+| 0.6 | 2.15 | 1.53 |
+| 0.7 | 3.60 | 1.72 |
+| 0.8 | 6.71 | 2.02 |
+| 0.9 | 19.81 | 2.57 |
+| 0.95 | 110.59 | 3.19 |
+| 0.99 | 471.67 | 4.70 |
+
+
 
 
 
