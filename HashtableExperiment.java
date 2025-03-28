@@ -1,8 +1,7 @@
 import java.util.Random;
 import java.util.Date;
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class HashtableExperiment {
 
@@ -28,9 +27,9 @@ public class HashtableExperiment {
 		
 		//Linear Probing Statistics
 		System.out.println("\n\tUsing Linear Probing");
-		System.out.println("HashtableExperiment: size of hash table is " + n);  // Assuming half the table is used based on load factor
+		System.out.println("HashtableExperiment: size of hash table is " + (int)n);
 		System.out.println("\tInserted " + linearHashtable.totalInserted() + " elements, of which " + linearHashtable.totalDuplicates() + " were duplicates");
-		System.out.printf("\tAvg. no. of probes = %.2f\n", linearHashtable.getAverageProbes());
+		System.out.printf("\tAvg. no. of probes = %.2f\n", (double)linearHashtable.getTotalProbes()/n);
 		if (debugLevel == 1) {
 			System.out.println("HashtableExperiment: Saved dump of hash table");
 			linearHashtable.dumpToFile("linear-dump.txt");
@@ -38,9 +37,9 @@ public class HashtableExperiment {
 
 		//Double Hashing Statistics
 		System.out.println("\n\tUsing Double Hashing");
-		System.out.println("HashtableExperiment: size of hash table is " + n);  // Assuming half the table is used based on load factor
-		System.out.println("\tInserted " + doubleHashtable.totalInserted() + " elements, of which " + doubleHashtable.totalInserted() + " were duplicates");
-		System.out.printf("\tAvg. no. of probes = %.2f\n", doubleHashtable.getAverageProbes());
+		System.out.println("HashtableExperiment: size of hash table is " + (int)n);
+		System.out.println("\tInserted " + doubleHashtable.totalInserted() + " elements, of which " + doubleHashtable.totalDuplicates() + " were duplicates");
+		System.out.printf("\tAvg. no. of probes = %.2f\n", (double)doubleHashtable.getTotalProbes()/n);
 		if (debugLevel == 1) {
 			System.out.println("HashtableExperiment: Saved dump of hash table");
 			doubleHashtable.dumpToFile("double-dump.txt");
@@ -48,13 +47,13 @@ public class HashtableExperiment {
 	}
 
     public static void main(String[] args) {
-
-        //Declaring User-Input Variables
+		
+		//Declaring User-Input Variables
         int dataSource;
 		String nameDataSource;
         double loadFactor;
         int debugLevel = 0;		//Default
-
+		
         //Getting User Input From Command Line
 		if (args.length <= 1) {
 			printUsage();
@@ -62,9 +61,9 @@ public class HashtableExperiment {
 		} else if (args.length < 4) {
 			dataSource = Integer.parseInt(args[0]);
 			loadFactor = Double.parseDouble(args[1]);
-
+			
             if (args.length == 3) {
-                debugLevel = Integer.parseInt(args[2]);
+				debugLevel = Integer.parseInt(args[2]);
             }
 		} else {
 			printUsage();
@@ -74,119 +73,128 @@ public class HashtableExperiment {
 		//Twin Prime Table Capacity is 95791
 		int tableCapacity = TwinPrimeGenerator.generateTwinPrime(95500, 96000);				//Table Capacity (m)
 		double numberToInsert = (int) Math.ceil(loadFactor * tableCapacity);						//Number Of Elements To Insert (n)
-
+		
 		//Two Tables
 		linearHashtable = new LinearProbing(tableCapacity, loadFactor);
 		doubleHashtable = new DoubleHashing(tableCapacity, loadFactor);
-
+		
 		//Debug Stats
 		int totalInserted = 0;
-		int totalDuplicates = 0;
-
+		
 		//User Input
 		switch(dataSource) {
 			case 1: nameDataSource = "Random";
 					Random random = new Random();
-					for (int i = 0; i < tableCapacity; i++) {
+
+					while ((totalInserted - linearHashtable.totalDuplicates()) < numberToInsert) {
 						int randomInteger = random.nextInt();
-						HashObject hashObject = new HashObject(randomInteger);
-		
-						// Inserting Into Both Tables
-						if (hashObject.getFrequencyCount() == 1) { // Only count probes for new insertions
-							linearHashtable.insert(hashObject);
-							doubleHashtable.insert(hashObject);
-							totalInserted++;
-						} else {
-							totalDuplicates++;
-							if (debugLevel == 2) {
-								System.out.println("Linear Probing: Duplicate insertion for key: " + randomInteger);
-							}
-						}
-		
-						if (debugLevel == 2) {
-							if (hashObject.getFrequencyCount() == 1) {
-								System.out.println("Linear Probing: Successfully inserted key: " + randomInteger);
-							}
-						}
-		
-						// Similar for Double Hashing
-						if (hashObject.getFrequencyCount() == 1) {
-							linearHashtable.insert(hashObject);
-							doubleHashtable.insert(hashObject);
-							totalInserted++;
-						} else {
-							totalDuplicates++;
-							if (debugLevel == 2) {
-								System.out.println("Double Hashing: Duplicate insertion for key: " + randomInteger);
-							}
-						}
-		
+						HashObject linearHashObject = new HashObject(randomInteger);
+						HashObject doubleHashObject = new HashObject(randomInteger);
+
+						int linearDuplicate = linearHashtable.totalDuplicates();
+						int doubleDuplicate = doubleHashtable.totalDuplicates();
+
+						linearHashtable.insert(linearHashObject);
+						doubleHashtable.insert(doubleHashObject);
 						totalInserted++;
+
+						if (debugLevel == 2) {
+
+							if (linearHashtable.totalDuplicates() > linearDuplicate) {
+								System.out.println("Linear Probing: Duplicate insertion for random: " + randomInteger );
+							} else {
+								System.out.println("Linear Probing: Successfully inserted random: " + randomInteger);
+							}
+
+							if (doubleHashtable.totalDuplicates() > doubleDuplicate) {
+								System.out.println("Double Hashing: Duplicate insertion for random: " + randomInteger );
+							} else {
+								System.out.println("Double Hashing: Successfully inserted random: " + randomInteger);
+							}
+						}
 					}
 					break;
+					
 			case 2: nameDataSource = "Long";
 					long current = new Date().getTime();
-					for (int i = 0; i < tableCapacity; i++) {
+
+					while ((totalInserted - linearHashtable.totalDuplicates()) < numberToInsert) {
+						
 						current += 1000;
 						Date date = new Date(current);
-						HashObject hashObject = new HashObject(date);
+						HashObject linearHashObject = new HashObject(date);
+						HashObject doubleHashObject = new HashObject(date);
+
+						int linearDuplicate = linearHashtable.totalDuplicates();
+						int doubleDuplicate = doubleHashtable.totalDuplicates();
 		
-						if (hashObject.getFrequencyCount() == 1) { // Only count probes for new insertions
-							linearHashtable.insert(hashObject);
-							doubleHashtable.insert(hashObject);
-							totalInserted++;
-						} else {
-							totalDuplicates++;
-							if (debugLevel == 2) {
-								System.out.println("Linear Probing: Duplicate insertion for date: " + date);
-							}
-						}
-		
-						if (debugLevel == 2) {
-							if (hashObject.getFrequencyCount() == 1) {
-								System.out.println("Linear Probing: Successfully inserted date: " + date);
-							}
-						}
-		
+						linearHashtable.insert(linearHashObject);
+						doubleHashtable.insert(doubleHashObject);
 						totalInserted++;
+
+						if (debugLevel == 2) {
+
+							if (linearHashtable.totalDuplicates() > linearDuplicate) {
+								System.out.println("Linear Probing: Duplicate insertion for Date: " + current );
+							} else {
+								System.out.println("Linear Probing: Successfully inserted Date: " + current);
+							}
+
+							if (doubleHashtable.totalDuplicates() > doubleDuplicate) {
+								System.out.println("Double Hashing: Duplicate insertion for Date: " + current );
+							} else {
+								System.out.println("Double Hashing: Successfully inserted Date: " + current);
+							}
+						}
 					}
 					break;
+
 			case 3: nameDataSource = "Word-List";
 					String fileName = "word-list.txt";
 					int wordsInserted = 0;
-					System.out.println("Table Capacity Is: " + tableCapacity);
-					//System.out.println("Load Factor is: " + linearHashtable.loadFactor());
+	
+					try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
 
-					try (Scanner scanner = new Scanner(new File(fileName))) {
+						String line = buffer.readLine();
+				
+						while (line != null && (wordsInserted - linearHashtable.totalDuplicates()) < numberToInsert) {
+						
+							HashObject linearHashObject = new HashObject(line);
+							HashObject doubleHashObject = new HashObject(line);
+				
+							int linearDuplicate = linearHashtable.totalDuplicates();
+							int doubleDuplicate = doubleHashtable.totalDuplicates();
+
+							linearHashtable.insert(linearHashObject);
+							doubleHashtable.insert(doubleHashObject);
 
 
-						while (scanner.hasNextLine() && wordsInserted < tableCapacity) {
-							String word = scanner.nextLine().trim();
-							HashObject hashObject = new HashObject(word);
-		
-								linearHashtable.insert(hashObject);
-								doubleHashtable.insert(hashObject);
-								wordsInserted++;
-								//totalInserted++;
-								//totalDuplicates++;
-								if (debugLevel == 2) {
-									System.out.println("Linear Probing: Duplicate insertion for word: " + word);
-								}
-		
+							wordsInserted++;
+				
 							if (debugLevel == 2) {
-									System.out.println("Linear Probing: Successfully inserted word: " + word);
+
+								if (linearHashtable.totalDuplicates() > linearDuplicate) {
+									System.out.println("Linear Probing: Duplicate insertion for Word: " + line);
+								} else {
+									System.out.println("Linear Probing: Successfully inserted Word: " + line);
+								}
+
+								if (doubleHashtable.totalDuplicates() > doubleDuplicate) {
+									System.out.println("Double Hashing: Duplicate insertion for Word: " + line);
+								} else {
+									System.out.println("Double Hashing: Successfully inserted Word: " + line);
+								}
 							}
 
-							//System.out.println("Load Factor?: " + linearHashtable.loadFactor());
-							//System.out.println("Word # Inserted: " + wordsInserted);
-		
-							//totalInserted++;
+							line = buffer.readLine();
 						}
-					} catch (FileNotFoundException e) {
+				
+					} catch (Exception e) {
 						System.err.println("Error: Words List File Not Found.");
 						return;
-					}		
+					}
 					break;
+
 			default: nameDataSource = "Invalid Data Source";
 					printUsage();
 					return;
@@ -196,6 +204,5 @@ public class HashtableExperiment {
 		System.out.println("HashtableExperiment: Input: " + nameDataSource + "   LoadFactor: " + loadFactor);
 
 		printDebug(numberToInsert, nameDataSource, debugLevel);
-
     }
 }

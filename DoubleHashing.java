@@ -12,5 +12,4 @@ public class DoubleHashing extends Hashtable {
 
         return positiveMod(h1 + probe * h2, capacity);  //Double Hashing Function
     }
-    
 }

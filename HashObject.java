@@ -7,7 +7,7 @@ public class HashObject {
     public HashObject(Object key) {
         this.key = key;
         this.frequencyCount = 1;    //Frequency Starts At 1, As Created
-        this.probeCount = 0;        //Probe Count Starts At 0
+        this.probeCount = 1;        //Probe Count Starts At 1
     }
 
     //Getter For The Key
@@ -39,18 +39,12 @@ public class HashObject {
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj) {
-            return true; //If Both Refernces Are The Same, Return True?
-        }
+        if (obj instanceof HashObject hashObject) {
+            return key.equals(hashObject.getKey());
 
-        if (obj == null || getClass() != obj.getClass()) {
-            return false; //If Obj Is Null Or Of A Different Class, Return False?
+        } else {
+            return false;
         }
-
-        HashObject other = (HashObject) obj;
-        
-        //Compare Key Values Using The Equals On The Keys
-        return this.key.equals(other.key);
     }
 
     //String Representation Of The Object

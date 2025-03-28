@@ -7,8 +7,8 @@ public class LinearProbing extends Hashtable {
     @Override
     public int h(Object key, int probe) {
         
-        int k = key.hashCode();
-        return positiveMod(k + probe, capacity);    //Primary Hashing Function
+        int h1 = positiveMod(key.hashCode(), capacity);
+        return positiveMod(h1 + probe, capacity);           //Primary Hashing Function
     }
     
 }

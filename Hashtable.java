@@ -24,6 +24,10 @@ public abstract class Hashtable {
         return this.table;
     }
 
+    public double getLoadFactor() {
+        return (double)size/table.length;
+    }
+
     public abstract int h(Object key, int probe);
 
     protected int positiveMod(int dividend, int divisor) {
@@ -44,82 +48,57 @@ public abstract class Hashtable {
         return duplicate;
     }
 
-    public double getAverageProbes() {
+    public int getTotalProbes() {
 
-        double totalProbeCount = 0;
+        int totalProbeCount = 0;
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < capacity; i++) {
 
             if (table[i] != null) {
                 totalProbeCount += table[i].getProbeCount();
             }
         }
 
-        return (double)totalProbeCount/size;
-
+        return totalProbeCount;
     }
 
-    // public void insert(HashObject key) {
-    //     int i = 0;                      // Probe counter
-    //     int probe = h(key, i);          // Start with the initial probe index
-
-    //     //HashObject realKey = new HashObject(key);
-    
-    //     while (i < table.length) {
-
-    //         key.incrementProbeCount();
-
-    //         if (table[probe] == null) {
-    //             table[probe] = new HashObject(key);                 // Insert the HashObject at this probe index
-    //             size++;                                             // Increase size of the table only for new insertions
-    //             return;                                             // Count probes only for new insertions
-    //         } 
-
-    //         if (table[probe].getKey().equals(key)) {
-
-    //             // If the key already exists, increment the frequency of the first object
-    //             table[probe].incrementFrequency();                  // Increment frequency for duplicates
-    //             duplicate++;
-    //             return;                                             // Count probes for the search, not the insertion
-    //         }
-
-    //         //If a collision occurs, increment the probe count and continue probing
-    //         //table[probe].incrementProbeCount();                 // Increment the probe count for this slot
-    //         i++;
-    //         probe = h(key, i);                                  // Recalculate the probe index with the updated probe count
-    //     }
-    // }
-
     public void insert(HashObject key) {
-        int i = 0;
-        int probe = h(key, i);  // Initial probe index
 
+        int i = 0;                              //Probe counter
+        int probe = h(key.getKey(), i);         //Start With The Initial Probe Index
+    
         while (i < table.length) {
-            key.incrementProbeCount();  // Increment probe count for every insertion attempt
 
+            
             if (table[probe] == null) {
-                table[probe] = new HashObject(key);  // Insert new key
-                size++;
+                table[probe] = key;                 //Insert the HashObject at this probe index
+                size++;                             //Increase size of the table only for new insertions
                 return;
             }
 
-            if (table[probe].getKey().equals(key)) {
-                table[probe].incrementFrequency();  // Increment frequency for duplicate key
-                duplicate++;  // Increment duplicate counter
+            
+            if (table[probe].equals(key)) {
+                
+                // If the key already exists, increment the frequency of the first object
+                table[probe].incrementFrequency();                  //Increment frequency for duplicates
+                duplicate++;
                 return;
+            } else {
+                key.incrementProbeCount();
             }
 
+            //If a collision occurs, increment the probe count and continue probing
             i++;
-            probe = h(key, i);  // Recalculate probe index only after increasing i
+            probe = h(key.getKey(), i);                                      //Recalculate the probe index with the updated probe count
         }
-    }   
+    }
 
     public HashObject hashSearch(HashObject key) {
 
         int i = 0;
         int probe = h(key, i);
 
-        // Loop until the key is found or the entire table has been searched
+        //Loop until the key is found or the entire table has been searched
         while (table[probe] != null) {
             if (table[probe].getKey().equals(key)) {
                 return table[probe];
@@ -135,19 +114,16 @@ public abstract class Hashtable {
         return null;
     }
 
-    public double loadFactor() {
-
-        return (double)size/table.length;
-    }
-
     public void dumpToFile(String fileName) {
+
         try {
+
             PrintWriter out = new PrintWriter(fileName);
             
-            // Loop through the table, and print non-null entries
+            //Loop Through The Table, And Print Non-Null Entries
             for (int i = 0; i < table.length; i++) {
+
                 if (table[i] != null) {
-                    // Use the toString method of HashObject to get the formatted output
                     out.println("table[" + i + "]: " + table[i].toString());
                 }
             }
@@ -157,4 +133,5 @@ public abstract class Hashtable {
             System.err.println("Error: Unable to write to file " + fileName);
         }
     }
+    
 }
