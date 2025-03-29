@@ -23,6 +23,7 @@ A listing of the included files...
 - p3-rubric.txt (Do Not Modify)
 - README.md
 - run-tests.sh (Do Not Modify)
+- AWS-Screenshot.png
 
 ## Reflection
 
